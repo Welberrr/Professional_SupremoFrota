@@ -1,0 +1,17 @@
+<h2>Produtos</h2>
+<p-table [value]="produtos" [paginator]="true" [rows]="10">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nome</th>
+      <th>Preço</th>
+      <th>Estoque</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-p>
+    <tr>
+      <td>{{ p.nome }}</td>
+      <td>{{ p.preco | currency : 'BRL' }}</td>
+      <td>{{ p.estoque }}</td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,36 @@
+<p-menubar [model]="menuItems">
+  <ng-template pTemplate="start">
+    <button pButton icon="pi pi-bars" class="p-button-text" (click)="toggleDrawer()"></button>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <button pButton icon="pi pi-sun" class="p-button-text" (click)="toggleTheme()"></button>
+  </ng-template>
+</p-menubar>
+
+<p-drawer [(visible)]="drawerVisible" position="left" [baseZIndex]="10000">
+  <ul class="menu-list">
+    <li *ngFor="let i of menuItems">
+      <a [routerLink]="i.routerLink" routerLinkActive="active" (click)="drawerVisible = false">
+        <i [class]="i.icon"></i> {{ i.label }}
+      </a>
+    </li>
+  </ul>
+</p-drawer>
+
+<div class="layout">
+  <aside class="sidebar">
+    <ul class="menu-list">
+      <li *ngFor="let i of menuItems">
+        <a [routerLink]="i.routerLink" routerLinkActive="active">
+          <i [class]="i.icon"></i> {{ i.label }}
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <section class="content">
+    <main><router-outlet></router-outlet></main>
+  </section>
+</div>
+
+<footer class="footer">© {{ currentYear }} SupremoFrota</footer>
