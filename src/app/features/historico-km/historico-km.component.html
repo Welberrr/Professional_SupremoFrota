@@ -1,0 +1,75 @@
+<h1>Tipos Veículos</h1>
+
+<div class="flex items-center gap-4 mb-4">
+    <div class="flex items-center">
+        <p-radiobutton name="status" value="ativos" inputId="rbAtivos" [(ngModel)]="statusSelecionado">
+        </p-radiobutton>
+        <label for="rbAtivos" class="ml-2">Ativos</label>
+    </div>
+
+    <div class="flex items-center">
+        <p-radiobutton name="status" value="inativo" inputId="rbInativo" [(ngModel)]="statusSelecionado">
+        </p-radiobutton>
+        <label for="rbInativo" class="ml-2">Inativo</label>
+    </div>
+</div>
+
+
+<p-panel header="Resultado Pesquisa">
+
+    <p-table [value]="[]" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]">
+
+        <ng-template pTemplate="caption">
+            <div class="flex justify-between items-center">
+
+                <div class="flex items-center">
+                    <label class="mr-2">Mostrar</label>
+                    <select class="p-inputtext p-component" style="width: auto;">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                    <span class="ml-2">registros</span>
+                </div>
+
+                <div class="flex items-center">
+                    <label class="mr-2">Buscar:</label>
+                    <input type="text" pInputText />
+                </div>
+
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="requisicao">REQUISIÇÃO CONCLUÍDA <p-sortIcon field="requisicao"></p-sortIcon></th>
+                <th pSortableColumn="placa">PLACA <p-sortIcon field="placa"></p-sortIcon></th>
+                <th>KM ATUAL</th>
+                <th pSortableColumn="situacao">SITUAÇÃO <p-sortIcon field="situacao"></p-sortIcon></th>
+                <th>AÇÕES</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>...</td>
+                <td>...</td>
+                <td>...</td>
+                <td class="text-center">
+                    <i class="pi pi-check-circle" style="color: var(--primary-color);"></i>
+                </td>
+                <td class="text-center">
+                    <p-button icon="pi pi-eye" styleClass="p-button-text"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nenhum registro encontrado.</td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+
+</p-panel>

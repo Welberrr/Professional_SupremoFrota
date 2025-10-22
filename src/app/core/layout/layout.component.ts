@@ -20,6 +20,7 @@ export class LayoutComponent {
     { label: 'Produtos', icon: 'pi pi-fw pi-tags', routerLink: '/produtos' },
     { label: 'Funcionários', icon: 'pi pi-fw pi-users', routerLink: '/funcionarios' },
     { label: 'Veículos', icon: 'pi pi-fw pi-car', routerLink: '/veiculo' },
+    { label: 'Historico KM', icon: 'pi pi-fw pi-car', routerLink: '/historicoKm' },
   ];
 
   toggleDrawer() {

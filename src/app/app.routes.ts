@@ -28,6 +28,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/veiculo/routes').then((m) => m.VEICULO_ROUTES),
       },
+      {
+        path: 'historicoKm',
+        loadChildren: () =>
+          import('./features/historico-km/routes').then((m) => m.HISTORICO_KM_ROUTES),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', redirectTo: 'dashboard' },
     ],
