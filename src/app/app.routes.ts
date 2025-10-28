@@ -12,16 +12,9 @@ export const routes: Routes = [
           import('./pages/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },
       {
-        path: 'produtos',
-        loadComponent: () =>
-          import('./pages/produtos/produtos.component').then((m) => m.ProdutosComponent),
-      },
-      {
-        path: 'funcionarios',
-        loadComponent: () =>
-          import('./pages/funcionarios/funcionarios.component').then(
-            (m) => m.FuncionariosComponent
-          ),
+        path: 'motorista',
+        loadChildren: () =>
+          import('./features/motorista/routes').then((m) => m.MOTORISTA_ROUTES),
       },
       {
         path: 'veiculo',

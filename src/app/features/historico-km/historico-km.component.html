@@ -1,17 +1,19 @@
 <h1>Tipos Veículos</h1>
 
-<div class="flex items-center gap-4 mb-4">
-    <div class="flex items-center">
+<div class="grid align-items-center gap-4 mb-4">
+
+    <div class="col flex align-items-center">
         <p-radiobutton name="status" value="ativos" inputId="rbAtivos" [(ngModel)]="statusSelecionado">
         </p-radiobutton>
         <label for="rbAtivos" class="ml-2">Ativos</label>
     </div>
 
-    <div class="flex items-center">
+    <div class="col flex align-items-center">
         <p-radiobutton name="status" value="inativo" inputId="rbInativo" [(ngModel)]="statusSelecionado">
         </p-radiobutton>
         <label for="rbInativo" class="ml-2">Inativo</label>
     </div>
+    
 </div>
 
 
@@ -20,9 +22,9 @@
     <p-table [value]="[]" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]">
 
         <ng-template pTemplate="caption">
-            <div class="flex justify-between items-center">
+            <div class="flex align-items-center">
 
-                <div class="flex items-center">
+                <div class="flex align-items-center">
                     <label class="mr-2">Mostrar</label>
                     <select class="p-inputtext p-component" style="width: auto;">
                         <option value="10">10</option>
@@ -32,7 +34,7 @@
                     <span class="ml-2">registros</span>
                 </div>
 
-                <div class="flex items-center">
+                <div class="flex align-items-center ml-auto">
                     <label class="mr-2">Buscar:</label>
                     <input type="text" pInputText />
                 </div>

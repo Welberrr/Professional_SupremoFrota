@@ -14,11 +14,11 @@ import { CommonModule } from '@angular/common';
 })
 export class LayoutComponent {
   drawerVisible = false;
+  sidebarCollapsed = false;
   currentYear = new Date().getFullYear();
   menuItems = [
-    { label: 'Dashboard', icon: 'pi pi-fw pi-home', routerLink: '/dashboard' },
-    { label: 'Produtos', icon: 'pi pi-fw pi-tags', routerLink: '/produtos' },
-    { label: 'Funcionários', icon: 'pi pi-fw pi-users', routerLink: '/funcionarios' },
+    { label: 'Inicio', icon: 'pi pi-fw pi-home', routerLink: '/dashboard' },
+    { label: 'Motorista', icon: 'pi pi-fw pi-car', routerLink: '/motorista' },
     { label: 'Veículos', icon: 'pi pi-fw pi-car', routerLink: '/veiculo' },
     { label: 'Historico KM', icon: 'pi pi-fw pi-car', routerLink: '/historicoKm' },
   ];
@@ -28,5 +28,9 @@ export class LayoutComponent {
   }
   toggleTheme() {
     document.body.classList.toggle('app-dark-mode');
+  }
+
+  toggleSidebar() {
+    this.sidebarCollapsed = !this.sidebarCollapsed;
   }
 }

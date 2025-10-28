@@ -1,0 +1,97 @@
+.stfcorporativo-shell-runner: &stfcorporativo-shell-runner
+  tags:
+    - stfcorporativo-shell
+
+.stfcorporativo-docker-runner: &stfcorporativo-docker-runner
+  tags:
+    - stfcorporativo-docker
+
+stages:
+  - version 
+  - build-artifact
+  - build-image
+
+version:
+  image: artifactory.stf.jus.br/corporativo/python:3.7-stretch
+  stage: version
+  before_script:
+    - pip install semver
+  script:
+    - python build/versionador.py version_docker > version
+    - python build/versionador.py version_docker > version_docker
+  artifacts:
+    paths:
+      - version
+      - version_docker
+  only:
+    - branches
+  <<: *stfcorporativo-docker-runner
+
+build-artifact:testes:
+  image: artifactory.stf.jus.br/corporativo/node
+  stage: build-artifact
+  before_script:
+    - sed -i 's|${API_URL}|'"$API_URL"'|' ./src/environments/environment.prod.ts
+    - sed -i 's|${APP_URL}|'"$APP_URL"'|' ./src/environments/environment.prod.ts
+    - sed -i 's|${AMBIENTE}|'"$AMBIENTE"'|' ./src/environments/environment.prod.ts
+    - export NODE_OPTIONS=--openssl-legacy-provider
+  script:
+    - npm set strict-ssl false
+    - npm install --force --legacy-peer-deps
+    - npm install @popperjs/core --force --legacy-peer-deps
+    - npm run build:prod
+  artifacts:
+    paths:
+      - ./dist
+  environment:
+    name: testes
+  only:
+    refs:
+      - desenvolvimento
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /\[CI_SKIP_FRONTEND\]/i
+  <<: *stfcorporativo-docker-runner
+
+build-artifact:producao:
+  image: artifactory.stf.jus.br/corporativo/node
+  stage: build-artifact
+  before_script:
+    - sed -i 's|${API_URL}|'"$API_URL"'|' ./src/environments/environment.prod.ts
+    - sed -i 's|${APP_URL}|'"$APP_URL"'|' ./src/environments/environment.prod.ts
+    - sed -i 's|${AMBIENTE}|'"$AMBIENTE"'|' ./src/environments/environment.prod.ts
+    - export NODE_OPTIONS=--openssl-legacy-provider
+  script:
+    - npm set strict-ssl false
+    - npm install --force --legacy-peer-deps
+    - npm install @popperjs/core --force --legacy-peer-deps
+    - npm run build:prod
+  artifacts:
+    paths:
+      - ./dist
+  environment:
+    name: producao
+  only:
+    refs:
+      - main
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /\[CI_SKIP_FRONTEND\]/i
+  <<: *stfcorporativo-docker-runner
+
+build-image:
+  stage: build-image
+  before_script:
+    - docker login -u $ARTIFACTORY_REGISTRY_USER -p $ARTIFACTORY_REGISTRY_PASS $ARTIFACTORY_REGISTRY_URL
+    - "export VERSION=$(cat ./version_docker)"
+  script:
+    - docker build -t $ARTIFACTORY_REGISTRY_URL/corporativo/administrativo/$CI_PROJECT_NAME:$VERSION -f build/nginx/Dockerfile .
+    - docker push $ARTIFACTORY_REGISTRY_URL/corporativo/administrativo/$CI_PROJECT_NAME:$VERSION
+  only:
+    refs:
+      - desenvolvimento
+      - main
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /\[CI_SKIP_FRONTEND\]/i
+  <<: *stfcorporativo-shell-runner

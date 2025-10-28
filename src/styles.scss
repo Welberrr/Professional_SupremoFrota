@@ -1,5 +1,100 @@
-:root{--bg:#f7f9fc;--card:#fff;--text:#222;}
-.app-dark-mode{--bg:#0b1220;--card:#111827;--text:#e6eef8;background:var(--bg);color:var(--text);}
-body{margin:0;font-family:Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
-main{padding:1rem;}
-.card{background:var(--card);padding:1rem;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,0.06);}
+@import 'primeicons/primeicons.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
+
+:root {
+  --bg: #f7f9fc;
+  --card: #fff;
+  --text: #222;
+}
+.app-dark-mode {
+  --bg: #0b1220;
+  --card: #111827;
+  --text: #e6eef8;
+  background: var(--bg);
+  color: var(--text);
+}
+body {
+  margin: 0;
+  font-family: Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+main {
+  padding: 1rem;
+}
+.card {
+  
+  background: var(--card);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-buttons button {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+p-iconfield {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+
+  p-iconfield input {
+    width: 100%;
+  }
+
+  i {
+    color: var(--primary-color);
+  }
+}
+
+/* Corrige layout da barra superior do p-table */
+.p-datatable-header > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap !important; /* impede quebra em duas linhas no desktop */
+  width: 100%;
+  gap: 1rem;
+}
+
+/* Campo de busca expande e o botão fica à direita */
+.p-datatable-header p-iconfield {
+  flex-grow: 1;
+  max-width: 400px;
+}
+
+/* Impede o botão de encolher ou quebrar linha */
+.p-datatable-header button {
+  flex-shrink: 0;
+}
+
+/* Responsividade — empilha os elementos no mobile */
+@media (max-width: 768px) {
+  .p-datatable-header > div {
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: wrap !important;
+  }
+
+  .p-datatable-header p-iconfield {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .p-datatable-header button {
+    width: 100%;
+  }
+}

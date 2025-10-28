@@ -1,0 +1,123 @@
+<div class="card">
+  <p-table
+    #dtMotorista
+    [value]="motoristas"
+    dataKey="id"
+    [paginator]="true"
+    [rows]="10"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowsPerPageOptions]="[10, 20, 30]"
+    [paginator]="true"
+    [globalFilterFields]="[
+      'nomeMotorista',
+      'funcionarioDTO.setorDTO.nome',
+      'dscHoraSaida',
+      'tipoMotoristaDTO.descricao',
+      'dataValidadeCnh',
+      'flgDisponivel'
+    ]"
+  >
+    <ng-template #caption>
+      <div class="flex justify-content-between align-items-center w-full flex-wrap gap-2">
+        <!-- Campo de busca à esquerda -->
+        <div class="flex align-items-center">
+          <p-iconfield iconPosition="left">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input
+              #inputBusca
+              pInputText
+              type="text"
+              (input)="dtMotorista.filterGlobal(inputBusca.value, 'contains')"
+              placeholder="Pesquisar motorista..."
+              class="w-20rem"
+            />
+          </p-iconfield>
+        </div>
+
+        <!-- Botão à direita -->
+        <div class="flex justify-content-end">
+          <button
+            pButton
+            label="Novo Motorista"
+            icon="pi pi-plus"
+            class="p-button-success p-button-rounded"
+            (click)="novoMotorista()"
+          ></button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th style="width: 25%">Nome</th>
+        <th style="width: 25%">Lotação</th>
+        <th style="width: 25%">H. Saida</th>
+        <th style="width: 25%">Tipo</th>
+        <th style="width: 25%">Vencimento CNH</th>
+        <th style="width: 25%">Disponibilizade</th>
+        <th style="width: 25%">Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-motorista>
+      <tr>
+        <td>{{ motorista?.nomeMotorista }}</td>
+        <td>{{ motorista?.funcionarioDTO?.setorDTO?.nome }}</td>
+        <td>{{ motorista?.dscHoraSaida }}</td>
+        <td>{{ motorista?.tipoMotoristaDTO?.descricao }}</td>
+        <td>{{ motorista?.dataValidadeCnh | date : 'dd/MM/yyyy' }}</td>
+        <td>{{ motorista?.flgDisponivel }}</td>
+        <td>
+          <div class="action-buttons">
+            <button
+              pButton
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-text p-button-info"
+              title="Editar"
+            ></button>
+
+            <!-- Excluir -->
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="p-button-rounded p-button-text p-button-danger"
+              title="Excluir"
+            ></button>
+
+            <!-- Visualizar -->
+            <button
+              pButton
+              icon="pi pi-eye"
+              class="p-button-rounded p-button-text p-button-secondary"
+              title="Visualizar"
+            ></button>
+
+            <!-- Cadastrar CNH -->
+            <button
+              pButton
+              icon="pi pi-id-card"
+              class="p-button-rounded p-button-text p-button-secondary"
+              title="Cadastrar CNH"
+            ></button>
+
+            <!-- Disponibilizar Motorista -->
+            <button
+              pButton
+              icon="pi pi-id-card"
+              class="p-button-rounded p-button-text p-button-secondary"
+              title="Disponibilizar Motorista"
+            ></button>
+
+            <!-- Historico Motorista -->
+            <button
+              pButton
+              icon="pi pi-history"
+              class="p-button-rounded p-button-text p-button-secondary"
+              title="Historico Motorista"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

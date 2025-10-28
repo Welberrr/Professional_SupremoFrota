@@ -6,5 +6,6 @@ export const environment = {
     urlSistema: 'http://localhost:8080/api',
     keycloakUrl: 'https://keycloak-hm.stf.jus.br',
     keycloakRealm: 'desenvolvimento',
-    keycloakClientId: 'supremofrota-client'
+    keycloakClientId: 'supremofrota-client',
+    authorizationString: ''
 };

@@ -7,7 +7,7 @@
   </ng-template>
 </p-menubar>
 
-<p-drawer [(visible)]="drawerVisible" position="left" [baseZIndex]="10000">
+<p-drawer header="Supremo Frota" [(visible)]="drawerVisible" position="left" [baseZIndex]="10000">
   <ul class="menu-list">
     <li *ngFor="let i of menuItems">
       <a [routerLink]="i.routerLink" routerLinkActive="active" (click)="drawerVisible = false">
@@ -18,19 +18,9 @@
 </p-drawer>
 
 <div class="layout">
-  <aside class="sidebar">
-    <ul class="menu-list">
-      <li *ngFor="let i of menuItems">
-        <a [routerLink]="i.routerLink" routerLinkActive="active">
-          <i [class]="i.icon"></i> {{ i.label }}
-        </a>
-      </li>
-    </ul>
-  </aside>
-
   <section class="content">
     <main><router-outlet></router-outlet></main>
   </section>
 </div>
 
-<footer class="footer">© {{ currentYear }} SupremoFrota</footer>
+<footer class="footer">© {{ currentYear }} Supremo Frota</footer>
