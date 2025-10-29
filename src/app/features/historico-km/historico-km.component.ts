@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 
-// Módulos PrimeNG
+// ... (todos os seus imports do PrimeNG)
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
@@ -30,68 +30,73 @@ import { CardModule } from 'primeng/card';
 })
 export class HistoricoKmComponent implements OnInit { 
   
-  statusSelecionado: string = 'ativos'; // O filtro começa em 'ativos'
-  
-  // MUDANÇA 1: Renomeamos a lista principal para 'veiculosMaster'
-  veiculosMaster: any[] = []; 
-  
-  // MUDANÇA 2: Criamos uma nova lista que será exibida na tabela
-  veiculosExibidos: any[] = [];
+  modoView: 'lista' | 'detalhes' | 'edicao' = 'lista';
 
-  // Propriedades da tela de edição (sem alteração)
-  modoEdicao: boolean = false; 
-  veiculoSelecionado: any = null; 
+  statusSelecionado: string = 'ativos';
+  veiculosMaster: any[] = []; 
+  veiculosExibidos: any[] = [];
+  
+  veiculoSelecionadoParaDetalhe: any = null;
+  detalhesQuilometragem: any[] = [];
+  
+  itemSelecionadoParaEdicao: any = null;
   kmChegadaAlterado: number | null = null;
   justificativa: string = '';
 
   constructor() { }
 
   ngOnInit(): void {
-    // 1. Carregamos nossos dados de teste na lista MASTER
     this.veiculosMaster = [
-      { requisicao: 'REQ-001', placa: 'ABC-1234', kmSaida: 56978, kmChegada: 57031, situacao: true }, // Ativo
-      { requisicao: 'REQ-002', placa: 'DEF-5678', kmSaida: 80000, kmChegada: 80500, situacao: true }, // Ativo
-      { requisicao: 'REQ-003', placa: 'GHI-9012', kmSaida: 210000, kmChegada: 210200, situacao: false } // Inativo
+      { requisicao: 'REQ-001', placa: 'JUL5567', kmChegada: 90515, situacao: true }, 
+      { requisicao: 'REQ-002', placa: 'DEF-5678', kmChegada: 80500, situacao: true },
+      { requisicao: 'REQ-003', placa: 'GHI-9012', kmChegada: 210200, situacao: false }
     ];
-    
-    // 2. Chamamos a função de filtro pela primeira vez para popular a tabela
     this.filtrarPorStatus();
   }
 
-  // --- MUDANÇA 3: NOVA FUNÇÃO DE FILTRO ---
-  /**
-   * Filtra a lista 'veiculosMaster' com base no 'statusSelecionado'
-   * e atualiza a lista 'veiculosExibidos'.
-   */
+  
   filtrarPorStatus() {
-    const statusAtivo = (this.statusSelecionado === 'ativos'); // true ou false
-    
+    const statusAtivo = (this.statusSelecionado === 'ativos');
     this.veiculosExibidos = this.veiculosMaster.filter(veiculo => 
       veiculo.situacao === statusAtivo
     );
   }
 
-  // --- Funções da Tela de Edição (sem alteração) ---
-
-  abrirEdicao(veiculo: any) {
-    this.veiculoSelecionado = veiculo;
-    this.kmChegadaAlterado = veiculo.kmChegada;
-    this.justificativa = ''; 
-    this.modoEdicao = true; 
+  abrirDetalhes(veiculo: any) {
+    this.veiculoSelecionadoParaDetalhe = veiculo;
+    this.detalhesQuilometragem = [
+      { requisicao: '00007/2017', placa: 'JUL5567', kmSaida: 56978, kmChegada: 57031, distancia: 53 },
+      { requisicao: '00033/2019', placa: 'JUL5567', kmSaida: 90440, kmChegada: 90448, distancia: 8 },
+      { requisicao: '00039/2020', placa: 'JUL5567', kmSaida: 112717, kmChegada: 112752, distancia: 35 },
+      { requisicao: '00043/2019', placa: 'JUL5567', kmSaida: 90448, kmChegada: 90455, distancia: 7 },
+      { requisicao: '00044/2020', placa: 'JUL5567', kmSaida: 112752, kmChegada: 112767, distancia: 15 },
+    ];
+    
+    this.modoView = 'detalhes';
   }
-
+  
+  abrirEdicao(itemDoDetalhe: any) {
+    this.itemSelecionadoParaEdicao = itemDoDetalhe;
+    this.kmChegadaAlterado = itemDoDetalhe.kmChegada;
+    this.justificativa = ''; 
+    this.modoView = 'edicao';
+  }
+  
   voltarParaLista() {
-    this.modoEdicao = false; 
-    this.veiculoSelecionado = null;
-    this.kmChegadaAlterado = null;
-    this.justificativa = '';
+    this.modoView = 'lista';
+    this.veiculoSelecionadoParaDetalhe = null;
+    this.detalhesQuilometragem = [];
+  }
+  
+  voltarParaDetalhes() {
+    this.modoView = 'detalhes';
+    this.itemSelecionadoParaEdicao = null;
   }
 
   salvarEdicao() {
-    console.log('Salvando dados para a placa:', this.veiculoSelecionado.placa);
-    // ...
+    console.log('Salvando dados para a requisição:', this.itemSelecionadoParaEdicao.requisicao);
+    
     alert('Dados salvos com sucesso! (Simulação)');
-    this.voltarParaLista();
-    // Poderíamos recarregar os dados do "banco" aqui no futuro
+    this.voltarParaDetalhes();
   }
 }
